@@ -1,20 +1,37 @@
 import React from 'react';
+import {StyleSheet, FlatList, ScrollView } from 'react-native';
 
-import { Text, View, StyleSheet } from 'react-native';
+import { CATEGORIES } from "../utils/dummy-data";
 
-const CategoriesScreen = () => {
+import CategoryItem from "../components/category-item.component";
+
+
+const CategoriesScreen = ({navigation}) => {
+
+    const renderGridItem = ({item}) => {
+        return (
+            <CategoryItem item={item} goTo={"category-meals"}/>
+        );
+    }
+
     return (
-        <View style={styles.container}>
-            <Text>
-                CategoriesScreen
-            </Text>
-        </View>
+        <ScrollView>
+            <FlatList
+                numColumns={2}
+                data={CATEGORIES}
+                keyExtractor={(cat) => cat.id}
+                renderItem={renderGridItem}
+            />
+        </ScrollView>
+
+
     );
 };
 
+
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     }
