@@ -1,35 +1,46 @@
 import React, { useEffect, useState } from 'react';
+import { View, StyleSheet, FlatList } from 'react-native';
+import { CATEGORIES, MEALS } from "../utils/dummy-data";
 
-import { Text, View, StyleSheet, Button } from 'react-native';
-import Colors from "../constants/color";
-import { CATEGORIES } from "../utils/dummy-data";
+import MealItem from "../components/meal-item.component";
 
 const CategoryMealsScreen = ({navigation, route}) => {
 
     const [category, setCategory] = useState(null);
-    const categoryId =  route.params.categoryId;
+    const categoryId = route.params.categoryId;
+
+    const displayedMeals = MEALS.filter(meal => {
+        return meal.categoryIds.indexOf(categoryId) >= 0
+    })
+
     const getCategory = async () => {
         const cat = await CATEGORIES.find(c => c.id === categoryId);
         setCategory(cat);
         navigation.setOptions({title: cat.title});
     }
 
+    const renderMealsGrid = ({item}) => {
+        return (
+            <MealItem meal={item}/>
+        )
+    }
+
     useEffect(() => {
-         getCategory();
+        getCategory();
     }, []);
 
 
-    if(!category){
+    if (!category) {
         return null
     }
+
     return (
         <View style={styles.container}>
-            <Text>{category.title}</Text>
-            <Button
-                title={"Go To Detail"}
-                onPress={() => {
-                    return navigation.navigate('detail-meals', {categoryId: categoryId})
-                }}
+            <FlatList
+                data={displayedMeals}
+                keyExtractor={item => item.id}
+                renderItem={renderMealsGrid}
+                style={{width: '100%'}}
             />
         </View>
     );
@@ -40,6 +51,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'center',
+        padding: 15,
     }
 });
 

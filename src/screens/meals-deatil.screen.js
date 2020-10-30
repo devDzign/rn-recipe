@@ -4,10 +4,9 @@ import { Text, View, StyleSheet } from 'react-native';
 
 const MealsDetailScreen = ({navigation, route}) => {
 
-
     return (
         <View style={styles.container}>
-            <Text>MealsDetailScreen {route.params.categoryId}</Text>
+            <Text>Meals DetailScreen {route.params.mealId}</Text>
         </View>
     );
 };
