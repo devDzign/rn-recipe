@@ -14,21 +14,23 @@ const CategoryItem = ({item, goTo}) => {
     const navigation =  useNavigation();
 
     return (
-        <TouchableOpacity
-            onPress={() => {
-                navigation.navigate(goTo,{ categoryId: item.id });
-            }}
-            style={styles.gridItem}
-        >
-            <View style={{...styles.container, ...{backgroundColor: item.color}}}>
-                <Text
-                    style={styles.title}
-                    numberOfLines={2}
-                >
-                    {item.title}
-                </Text>
-            </View>
-        </TouchableOpacity>
+        <View style={styles.gridItem}>
+            <TouchableOpacity
+                onPress={() => {
+                    navigation.navigate(goTo,{ categoryId: item.id });
+                }}
+                style={{flex: 1}}
+            >
+                <View style={{...styles.container, ...{backgroundColor: item.color}}}>
+                    <Text
+                        style={styles.title}
+                        numberOfLines={2}
+                    >
+                        {item.title}
+                    </Text>
+                </View>
+            </TouchableOpacity>
+        </View>
     );
 };
 
@@ -37,6 +39,8 @@ const styles = StyleSheet.create({
         flex: 1,
         margin: 15,
         height: 150,
+        overflow: 'hidden',
+        elevation: 5,
     },
     container: {
         flex: 1,
@@ -45,7 +49,6 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.26,
         shadowOffset: {width: 0, height: 2},
         shadowRadius: 10,
-        elevation: 3,
         padding: 15,
         justifyContent: 'flex-end',
         alignItems: 'flex-end'

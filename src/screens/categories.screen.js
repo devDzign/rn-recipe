@@ -6,7 +6,7 @@ import { CATEGORIES } from "../utils/dummy-data";
 import CategoryItem from "../components/category-item.component";
 
 
-const CategoriesScreen = ({navigation}) => {
+const CategoriesScreen = () => {
 
     const renderGridItem = ({item}) => {
         return (
@@ -23,8 +23,6 @@ const CategoriesScreen = ({navigation}) => {
                 renderItem={renderGridItem}
             />
         </ScrollView>
-
-
     );
 };
 

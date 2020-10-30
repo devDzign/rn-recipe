@@ -27,7 +27,7 @@ const CategoryMealsScreen = ({navigation, route}) => {
 
     useEffect(() => {
         getCategory();
-    }, []);
+    }, [category]);
 
 
     if (!category) {
