@@ -3,7 +3,6 @@ import { Text, View, StyleSheet, Button } from 'react-native';
 
 import { MEALS } from "../utils/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
-import Colors from '../constants/color'
 
 import HeaderButton from '../components/header-button.component'
 
