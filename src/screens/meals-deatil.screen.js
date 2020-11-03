@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Text, View, StyleSheet, Button } from 'react-native';
 
 import { MEALS } from "../utils/dummy-data";
@@ -15,34 +15,35 @@ import HeaderButton from '../components/header-button.component'
  */
 const MealsDetailScreen = ({navigation, route}) => {
 
-    const mealId =  route.params.mealId;
     const [meal, setMeal] = useState(null);
 
-
-    const getMeal = async () => {
-        const selectedMeal = await MEALS.find(meal => meal.id === mealId);
-        setMeal(selectedMeal);
+    const getMeal = () => {
+        const mealId = route.params.mealId;
+        const selectedMeal = MEALS.find(meal => meal.id === mealId);
+        setMeal(selectedMeal)
+    }
+    useEffect(() => {
+        getMeal();
         navigation.setOptions(
             {
-                title: meal.title,
+                title: meal ? meal.title : '',
                 headerRight: () => (
-                   <HeaderButtons HeaderButtonComponent={HeaderButton}>
-                       <Item
-                           title={"fav"}
-                           iconName={'md-heart-empty'}
-                           onPress={() => console.log("add to favorite")}
-                       />
-                   </HeaderButtons>
+                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                        <Item
+                            title={"fav"}
+                            iconName={'ios-star'}
+                            onPress={() => console.log("Mark as favorite")}
+                        />
+                    </HeaderButtons>
                 ),
             });
-    }
+    },[route,meal]);
 
-    useEffect(() => {
-        getMeal().then(r => r )
-    }, [meal]);
+
+
 
     if (!meal) {
-        return null
+        return null;
     }
 
     return (
@@ -60,7 +61,7 @@ const MealsDetailScreen = ({navigation, route}) => {
 
 const styles = StyleSheet.create({
     container: {
-        flex:1,
+        flex: 1,
         alignItems: 'center',
         justifyContent: 'center'
     }

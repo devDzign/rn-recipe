@@ -1,58 +1,30 @@
-import React, { useEffect, useState } from 'react';
-import { View, StyleSheet, FlatList } from 'react-native';
+import React, { useCallback, useEffect, useState } from 'react';
 import { CATEGORIES, MEALS } from "../utils/dummy-data";
-
-import MealItem from "../components/meal-item.component";
+import MealsList from "../components/meal-list.component";
 
 const CategoryMealsScreen = ({navigation, route}) => {
 
-    const [category, setCategory] = useState(null);
-    const categoryId = route.params.categoryId;
+    const [meals, setMeals] = useState([]);
 
-    const displayedMeals = MEALS.filter(meal => {
-        return meal.categoryIds.indexOf(categoryId) >= 0
-    })
-
-    const getCategory = async () => {
-        const cat = await CATEGORIES.find(c => c.id === categoryId);
-        setCategory(cat);
-        navigation.setOptions({title: cat.title});
+    const getMeals = () => {
+        const categoryId = route.params.categoryId;
+        const displayedMeals = MEALS.filter(meal => {
+            return meal.categoryIds.indexOf(categoryId) >= 0
+        })
+        setMeals(displayedMeals)
+        const category = CATEGORIES.find(c => c.id === categoryId);
+        navigation.setOptions({title: category.title});
     }
-
-    const renderMealsGrid = ({item}) => {
-        return (
-            <MealItem meal={item}/>
-        )
-    }
-
     useEffect(() => {
-        getCategory();
-    }, [category]);
+           getMeals()
+        }, [route]
+    );
 
-
-    if (!category) {
-        return null
-    }
 
     return (
-        <View style={styles.container}>
-            <FlatList
-                data={displayedMeals}
-                keyExtractor={item => item.id}
-                renderItem={renderMealsGrid}
-                style={{width: '100%'}}
-            />
-        </View>
+        <MealsList displayedMeals={meals} navigation={navigation}/>
     );
 };
 
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 15,
-    }
-});
 
 export default CategoryMealsScreen;

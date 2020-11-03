@@ -1,20 +1,19 @@
 import 'react-native-gesture-handler';
-import { createStackNavigator } from '@react-navigation/stack';
 import React from 'react';
+import { createStackNavigator } from '@react-navigation/stack';
 
-import CategoriesScreen from "../screens/categories.screen";
-import MealsDetailScreen from "../screens/meals-deatil.screen";
-import CategoryMealsScreen from "../screens/category-meals.screen";
 import Colors from "../constants/color";
+import FavoritesScreen from "../screens/favorites.screen";
+import MealsDetailScreen from "../screens/meals-deatil.screen";
 
 const Stack = createStackNavigator();
 
 
-const MealsNavigator = () => {
+const FavoriteNavigator = () => {
 
     return (
             <Stack.Navigator
-                initialRouteName="index"
+                initialRouteName="favorites"
                 screenOptions={{
                     headerStyle: {
                         backgroundColor: Colors.primaryColor,
@@ -26,15 +25,10 @@ const MealsNavigator = () => {
                     },
                 }}
             >
-
                 <Stack.Screen
-                    name="index"
-                    component={CategoriesScreen}
-                    options={{title: 'Home',}}
-                />
-                <Stack.Screen
-                    name="category-meals"
-                    component={CategoryMealsScreen}
+                    name="favorites"
+                    component={FavoritesScreen}
+                    options={{title: 'Favorites',}}
                 />
                 <Stack.Screen
                     name="detail-meals"
@@ -46,4 +40,4 @@ const MealsNavigator = () => {
 
 
 
-export default MealsNavigator;
+export default FavoriteNavigator;

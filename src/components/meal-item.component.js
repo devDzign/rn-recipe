@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Text, View, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
-import { useNavigation } from "@react-navigation/native"
 
 /**
  *
@@ -9,17 +7,14 @@ import { useNavigation } from "@react-navigation/native"
  * @returns {JSX.Element}
  * @constructor
  */
-const MealItem = ({meal}) => {
-
-    const navigation = useNavigation();
+const MealItem = ({meal, onSelectMeal}) => {
 
     return (
         <View style={ styles.mealItem}>
             <TouchableOpacity
-                onPress={() => navigation.navigate("detail-meals", {mealId: meal.id})}
+                onPress={onSelectMeal}
             >
                 <View>
-
                     <View style={{ ...styles.mealRow, ...styles.mealHeader }}>
                         <ImageBackground
                             source={{ uri: meal.imageUrl }}
@@ -52,7 +47,8 @@ const styles = StyleSheet.create({
         width: '100%',
         backgroundColor: '#f5f5f5',
         borderRadius: 10,
-        overflow: 'hidden'
+        overflow: 'hidden',
+        marginVertical: 10
     },
     bgImage: {
         width: '100%',

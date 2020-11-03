@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Text, View, StyleSheet } from 'react-native';
 
-const IndexScreen = () => {
+const SettingScreen = () => {
     return (
         <View>
             <Text>
-                Index Screen
+                Setting Screen
             </Text>
         </View>
     );
@@ -14,4 +14,4 @@ const IndexScreen = () => {
 
 const styles = StyleSheet.create({});
 
-export default IndexScreen;
+export default SettingScreen;

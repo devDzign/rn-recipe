@@ -1,12 +1,31 @@
-import React from 'react';
-import {StyleSheet, FlatList, ScrollView } from 'react-native';
-
+import React, { useEffect } from 'react';
+import { FlatList} from 'react-native';
 import { CATEGORIES } from "../utils/dummy-data";
-
 import CategoryItem from "../components/category-item.component";
+import { HeaderButtons, Item } from "react-navigation-header-buttons";
+import HeaderButton from "../components/header-button.component";
 
 
-const CategoriesScreen = () => {
+const CategoriesScreen = ({navigation}) => {
+
+    const openDrawNavHandler = () => {
+        navigation.toggleDrawer();
+    }
+
+    useEffect(() => {
+        navigation.setOptions(
+            {
+                headerLeft: () => (
+                    <HeaderButtons HeaderButtonComponent={HeaderButton}>
+                        <Item
+                            title={"fav"}
+                            iconName={'ios-menu'}
+                            onPress={openDrawNavHandler}
+                        />
+                    </HeaderButtons>
+                ),
+            });
+    },[]);
 
     const renderGridItem = ({item}) => {
         return (
@@ -15,24 +34,14 @@ const CategoriesScreen = () => {
     }
 
     return (
-        <ScrollView>
-            <FlatList
-                numColumns={2}
-                data={CATEGORIES}
-                keyExtractor={(cat) => cat.id}
-                renderItem={renderGridItem}
-            />
-        </ScrollView>
+        <FlatList
+            numColumns={2}
+            data={CATEGORIES}
+            keyExtractor={(cat) => cat.id}
+            renderItem={renderGridItem}
+        />
     );
 };
 
-
-const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center'
-    }
-});
 
 export default CategoriesScreen;
