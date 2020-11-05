@@ -1,24 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import MealsList from "../components/meal-list.component";
-import { MEALS } from "../utils/dummy-data";
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 import HeaderButton from "../components/header-button.component";
+import { connect, useSelector } from "react-redux";
 
-const FavoritesScreen = ({navigation}) => {
+const FavoritesScreen = ({navigation, favoriteMeals}) => {
 
-    const [meals, setMeals] = useState([]);
+    const [meals, setMeals] = useState(useSelector(state => state.mealsData.favoriteMeals));
 
     const openDrawNavHandler = () => {
         navigation.toggleDrawer();
     }
 
-    const getFavoritesMeals = () => {
-        const favMeals = MEALS.filter(meal => meal.id === 'm1' || meal.id === 'm2');
-        setMeals(favMeals);
-    }
-
     useEffect(()=> {
-        getFavoritesMeals();
         navigation.setOptions(
             {
                 headerLeft: () => (
@@ -31,10 +25,14 @@ const FavoritesScreen = ({navigation}) => {
                     </HeaderButtons>
                 ),
             });
-    }, [])
+    }, [navigation])
 
 
     return <MealsList displayedMeals={meals} navigation={navigation}/>;
 };
-
-export default FavoritesScreen;
+const mapStateToProps = state => {
+    return {
+        favoriteMeals: state.mealsData.favoriteMeals,
+    }
+}
+export default connect(mapStateToProps, null)(FavoritesScreen);

@@ -1,9 +1,10 @@
 import 'react-native-gesture-handler';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createMaterialBottomTabNavigator } from '@react-navigation/material-bottom-tabs';
 import { MaterialIcons } from '@expo/vector-icons';
 import MealsNavigator from "./meals-stack.navigation";
 import FavoriteNavigator from "./favorite-stack.navigation";
+import { useSelector } from "react-redux";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -12,7 +13,16 @@ const Tab = createMaterialBottomTabNavigator();
  * @returns {JSX.Element}
  * @constructor
  */
-const MealsTabsNavigator = () => {
+const MealsTabsNavigator = props => {
+
+    const [nbFavorite, setNbFavorite] = useState(0);
+    const count = useSelector(state => state.mealsData.favoriteMeals.length)
+
+    useEffect(() => {
+        setNbFavorite(count)
+    }, [count]);
+
+
 
     return (
             <Tab.Navigator
@@ -50,14 +60,12 @@ const MealsTabsNavigator = () => {
                                     color={color}
                                 />
                             ),
-                            tabBarBadge: 3,
+                            tabBarBadge: nbFavorite,
                         }
                     }
                 />
             </Tab.Navigator>
     );
 };
-
-
 
 export default MealsTabsNavigator;

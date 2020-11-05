@@ -8,6 +8,9 @@ import { StyleSheet } from "react-native"
 
 import RootNavigator from "./src/navigation/root.navigator";
 
+import { Provider } from "react-redux";
+import { store } from "./src/store/store";
+
 const fetchFonts = () => {
     return Font.loadAsync({
             'open-sans': require('./assets/fonts/OpenSans-Regular.ttf'),
@@ -29,7 +32,9 @@ export default function App() {
     }
 
     return (
-        <RootNavigator/>
+        <Provider store={store}>
+           <RootNavigator/>
+        </Provider>
     );
 }
 

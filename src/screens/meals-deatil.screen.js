@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { ScrollView, Image, Text, View, StyleSheet, Button } from 'react-native';
-
-import { MEALS } from "../utils/dummy-data";
+import { ScrollView, Image, Text, View, StyleSheet} from 'react-native';
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from '../components/header-button.component';
+import { addMealToFavorite } from "../store/filters/meals.actions";
+import { connect, useSelector } from "react-redux";
 
 const ListItem = props => {
     return <View style={styles.listItem}>
@@ -19,31 +19,39 @@ const ListItem = props => {
  * @returns {JSX.Element}
  * @constructor
  */
-const MealsDetailScreen = ({navigation, route}) => {
+const MealsDetailScreen = ({navigation, route, addMealToFavorite}) => {
 
     const [meal, setMeal] = useState(null);
+    const mealId = route.params.mealId;
+    const mealTitle = route.params.mealTitle;
+    const meals = useSelector(state=> state.mealsData.meals)
+    const selectedMeal = meals.find(meal => meal.id === mealId);
+
 
     const getMeal = () => {
-        const mealId = route.params.mealId;
-        const selectedMeal = MEALS.find(meal => meal.id === mealId);
         setMeal(selectedMeal)
     }
+
+    const addMealToFavoriteHandler = () => {
+        addMealToFavorite(meal)
+    }
+
     useEffect(() => {
         getMeal();
         navigation.setOptions(
             {
-                title: meal ? meal.title : '',
+                title: mealTitle,
                 headerRight: () => (
                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
                         <Item
                             title={"fav"}
                             iconName={'ios-star'}
-                            onPress={() => console.log("Mark as favorite")}
+                            onPress={addMealToFavoriteHandler}
                         />
                     </HeaderButtons>
                 ),
             });
-    }, [route, meal]);
+    }, [mealTitle, meal]);
 
 
     if (!meal) {
@@ -100,5 +108,8 @@ const styles = StyleSheet.create({
 
     }
 });
+const mapDispatchToProps = dispatch => ( {
+    addMealToFavorite: (meal) => dispatch(addMealToFavorite(meal))
+})
 
-export default MealsDetailScreen;
+export default connect(null, mapDispatchToProps)(MealsDetailScreen);

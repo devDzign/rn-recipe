@@ -9,7 +9,11 @@ const MealsList = ({displayedMeals, navigation}) => {
             <MealItem
                 meal={item}
                 onSelectMeal={() => {
-                    navigation.navigate('detail-meals', {mealId: item.id});
+                    navigation.navigate('detail-meals', {
+                        mealId: item.id,
+                        mealTitle: item.title
+                    }
+                        );
                 }}
             />
         )
