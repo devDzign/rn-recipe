@@ -14,3 +14,11 @@ export const addMealToFavorite = (meal) => ({
         meal: meal,
     }
 })
+
+export const toggleFavorite = (mealId) => ({
+    type: mealsTypes.TOGGLE_FAVORITE,
+    payload: {
+        mealId: mealId,
+    }
+})
+

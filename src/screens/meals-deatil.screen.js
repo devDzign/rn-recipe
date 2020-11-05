@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { ScrollView, Image, Text, View, StyleSheet} from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import { ScrollView, Image, Text, View, StyleSheet } from 'react-native';
 import { HeaderButtons, Item } from "react-navigation-header-buttons";
 
 import HeaderButton from '../components/header-button.component';
-import { addMealToFavorite } from "../store/filters/meals.actions";
-import { connect, useSelector } from "react-redux";
+import { toggleFavorite } from "../store/filters/meals.actions";
+import { useSelector, useDispatch } from "react-redux";
+
 
 const ListItem = props => {
     return <View style={styles.listItem}>
@@ -19,12 +20,17 @@ const ListItem = props => {
  * @returns {JSX.Element}
  * @constructor
  */
-const MealsDetailScreen = ({navigation, route, addMealToFavorite}) => {
+const MealsDetailScreen = ({navigation, route}) => {
 
-    const [meal, setMeal] = useState(null);
     const mealId = route.params.mealId;
     const mealTitle = route.params.mealTitle;
-    const meals = useSelector(state=> state.mealsData.meals)
+
+    const meals = useSelector(state => state.mealsData.meals)
+    const IsInFavoriteMeals = useSelector(state => state.mealsData.favoriteMeals.some(item => item.id === mealId))
+    const dispatch = useDispatch()
+
+    const [meal, setMeal] = useState(null);
+    const [isFav, setIsFav] = useState(IsInFavoriteMeals);
     const selectedMeal = meals.find(meal => meal.id === mealId);
 
 
@@ -32,9 +38,13 @@ const MealsDetailScreen = ({navigation, route, addMealToFavorite}) => {
         setMeal(selectedMeal)
     }
 
-    const addMealToFavoriteHandler = () => {
-        addMealToFavorite(meal)
+    const toggleFavoriteHandler = () => {
+        dispatch(toggleFavorite(mealId))
     }
+
+    useEffect(() => {
+        setIsFav(IsInFavoriteMeals)
+    }, [IsInFavoriteMeals]);
 
     useEffect(() => {
         getMeal();
@@ -45,13 +55,13 @@ const MealsDetailScreen = ({navigation, route, addMealToFavorite}) => {
                     <HeaderButtons HeaderButtonComponent={HeaderButton}>
                         <Item
                             title={"fav"}
-                            iconName={'ios-star'}
-                            onPress={addMealToFavoriteHandler}
+                            iconName={isFav ? 'ios-star' : 'ios-star-outline'}
+                            onPress={toggleFavoriteHandler}
                         />
                     </HeaderButtons>
                 ),
             });
-    }, [mealTitle, meal]);
+    }, [mealTitle, meal, getMeal]);
 
 
     if (!meal) {
@@ -67,7 +77,7 @@ const MealsDetailScreen = ({navigation, route, addMealToFavorite}) => {
                 <Text>{meal.affordability}</Text>
             </View>
             <Text style={styles.title}>Ingredients</Text>
-            {meal.ingredients.map((ingredient,index) => {
+            {meal.ingredients.map((ingredient, index) => {
                 return <ListItem key={index}>{ingredient}</ListItem>
             })}
             <Text style={styles.title}>Steps</Text>
@@ -102,14 +112,12 @@ const styles = StyleSheet.create({
         padding: 10,
 
     },
-    titleItem:{
+    titleItem: {
         fontFamily: 'open-sans',
         fontSize: 18,
 
     }
 });
-const mapDispatchToProps = dispatch => ( {
-    addMealToFavorite: (meal) => dispatch(addMealToFavorite(meal))
-})
 
-export default connect(null, mapDispatchToProps)(MealsDetailScreen);
+
+export default MealsDetailScreen;

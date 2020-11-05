@@ -10,10 +10,10 @@ const MealsList = ({displayedMeals, navigation}) => {
                 meal={item}
                 onSelectMeal={() => {
                     navigation.navigate('detail-meals', {
-                        mealId: item.id,
-                        mealTitle: item.title
-                    }
-                        );
+                            mealId: item.id,
+                            mealTitle: item.title
+                        }
+                    );
                 }}
             />
         )
