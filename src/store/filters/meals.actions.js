@@ -22,3 +22,10 @@ export const toggleFavorite = (mealId) => ({
     }
 })
 
+export const setFilters = (filtersSettings) => ({
+    type: mealsTypes.SET_FILTERS,
+    payload: {
+        filters: filtersSettings,
+    }
+})
+

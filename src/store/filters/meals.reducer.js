@@ -11,10 +11,34 @@ const INITIAL_STATE = {
 const mealsReducer = (state = INITIAL_STATE, action) => {
 
     switch (action.type) {
-        case mealsTypes.FILTERS_SAVE:
+        case mealsTypes.SET_FILTERS:
+
+            const applyFilters = action.payload.filters;
+            const updatedFilteredMeals = state.meals.filter( meal => {
+
+               if(applyFilters.glutenFree && !meal.isGlutenFree){
+                   return false
+               }
+
+                if(applyFilters.lactoseFree && !meal.isLactoseFree){
+                    return false
+                }
+
+                if(applyFilters.vegan && !meal.isVegan){
+                    return false
+                }
+
+                if(applyFilters.vegetarian && !meal.isVegetarian){
+                    return false
+                }
+
+                return true;
+            });
+
             return {
                 ...state,
-                filters: action.payload.filters
+                filters: applyFilters,
+                filteredMeals: updatedFilteredMeals
             }
 
         case mealsTypes.TOGGLE_FAVORITE:
