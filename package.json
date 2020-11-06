@@ -36,7 +36,8 @@
     "@expo/vector-icons": "^10.2.1",
     "@react-navigation/core": "^5.13.2",
     "@react-navigation/drawer": "^5.10.2",
-    "@react-navigation/routers": "^5.5.1"
+    "@react-navigation/routers": "^5.5.1",
+    "redux-devtools-extension": "^2.13.8"
   },
   "private": true
 }

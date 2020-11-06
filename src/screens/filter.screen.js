@@ -47,17 +47,15 @@ const FiltersScreen = ({navigation, route}) => {
         navigation.setParams({ save: saveFilters });
     }, [saveFilters]);
 
-
-
     useEffect(() => {
-        onSave = (route.params) ? route.params.save: onSave;
+
         navigation.setOptions({
             headerRight: () => (
                 <HeaderButtons HeaderButtonComponent={HeaderButton}>
                     <Item
                         title="Save"
                         iconName="ios-save"
-                        onPress={onSave}
+                        onPress={saveFilters}
                     />
                 </HeaderButtons>
             ),
